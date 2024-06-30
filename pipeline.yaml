@@ -1,0 +1,52 @@
+pipeline:
+  name: lab-harness-pipeline
+  identifier: lab_harness_pipeline
+  projectIdentifier: your_project_identifier
+  orgIdentifier: default
+  stages:
+    - stage:
+        name: Build_Step
+        identifier: Build_Step
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: Docker
+            spec:
+              connectorRef: your_docker_connector
+              image: node:14
+              privileged: true
+          execution:
+            steps:
+              - step:
+                  name: Clone Repository
+                  identifier: Clone_Repository
+                  type: Run
+                  spec:
+                    connectorRef: your_git_connector
+                    image: alpine/git
+                    command: |
+                      git clone https://github.com/your-username/your-nodejs-repo.git
+                      cd your-nodejs-repo
+              - step:
+                  name: Install Dependencies
+                  identifier: Install_Dependencies
+                  type: Run
+                  spec:
+                    image: node:14
+                    command: |
+                      cd your-nodejs-repo
+                      npm install
+              - step:
+                  name: Run Tests
+                  identifier: Run_Tests
+                  type: Run
+                  spec:
+                    image: node:14
+                    command: |
+                      cd your-nodejs-repo
+                      npm test
+          serviceDependencies: []
+          sharedPaths: []
+
+  tags: {}
