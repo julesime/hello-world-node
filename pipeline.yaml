@@ -46,6 +46,15 @@ pipeline:
                     command: |
                       cd your-nodejs-repo
                       npm test
+              - step:
+                  name: Build Application
+                  identifier: Build_Application
+                  type: Run
+                  spec:
+                    image: node:14
+                    command: |
+                      cd your-nodejs-repo
+                      npm run build
           serviceDependencies: []
           sharedPaths: []
 
